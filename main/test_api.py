@@ -39,5 +39,34 @@ class TestFastAPI(unittest.TestCase):
         response = self.client.post("/script_analyse", json=sample_script, headers=invalid_token)
         self.assertEqual(response.status_code, 401)
 
+
+class TestGenerateToken(unittest.TestCase):
+    def setUp(self):
+        self.username = "testuser"
+        self.tokens_file = "tokens.json"
+
+    def tearDown(self):
+        # Remove the test user from the tokens file after the test
+        tokens = main.read_tokens_from_file(self.tokens_file)
+        if self.username in tokens:
+            del tokens[self.username]
+        with open(self.tokens_file, "w") as file:
+            json.dump(tokens, file, indent=4)
+
+    def test_generate_token(self):
+        main.generate_token(self.username)
+
+        # Read the tokens file
+        tokens = main.read_tokens_from_file(self.tokens_file)
+
+        # Check if the token for the user exists
+        self.assertIn(self.username, tokens)
+
+        # Check if the token is 16 characters long
+        self.assertEqual(len(tokens[self.username]), 16)
+
+        # Check if the token consists of only letters and digits
+        self.assertTrue(tokens[self.username].isalnum())
+
 if __name__ == '__main__':
     unittest.main()
