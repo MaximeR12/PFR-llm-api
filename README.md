@@ -1,4 +1,54 @@
-# LLM-API
-Rest API made with Fast Api (python) to call a custom prompt using ollama with llama 3 8b model
+# FastAPI Script Analyzer
 
-main.py does containt the main script to make the ollama model requests with my custom prompt to analyse sql script and output a csv content used fo a data lineage tool
+This repository contains scripts for analyzing SQL scripts using FastAPI and the Ollama library.
+
+## Getting Started
+
+To get started, follow these instructions:
+
+1. **Clone the repository:**
+    ```sh
+    git clone git@github.com:MaximeR12/LLM-API.git
+    ```
+
+2. **Install dependencies:**
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+3. **Create a token:**
+    You'll need a token to authenticate requests. Run the following command to generate a token:
+    ```sh
+    python create_token.py <username>
+    ```
+
+4. **Run the FastAPI server:**
+    ```sh
+    uvicorn main:app --reload
+    ```
+
+## Scripts
+
+### `main.py`
+
+This script sets up a FastAPI app to analyze SQL scripts. It defines routes for analyzing scripts and authenticating users using tokens.
+
+### `create_token.py`
+
+This script generates a token for a given username. Tokens are used for authentication when accessing the FastAPI endpoints.
+
+### `test_api.py`
+
+This script contains unit tests for the FastAPI endpoints. It includes tests for script analysis and token generation.
+
+## Usage
+
+### Analyzing a Script
+
+To analyze a script, send a POST request to `/script_analyse` with a JSON body containing the script and a valid token in the Authorization header.
+
+Example request:
+```json
+{
+  "script": "INSERT INTO test_target FROM test_source"
+}
