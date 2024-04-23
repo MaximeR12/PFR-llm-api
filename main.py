@@ -1,14 +1,23 @@
 import ollama
-from fastapi import FastAPI, Security, Response, Depends, HTTPException
+import json
+import os
+from fastapi import FastAPI, Security, Response, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 
-app = FastAPI()
 
-valid_users = {
-    "user1": "password1",
-    "user2": "password2",
-}
+def read_tokens_from_file(file_path):
+    if not os.path.exists(file_path):
+        with open(file_path, "w") as file:
+            json.dump({"tokens": {}}, file)
+    with open(file_path, "r") as file:
+        config = json.load(file)
+    return config.get("tokens", {})
+
+tokens_config_path = "tokens.json"
+valid_users = read_tokens_from_file(tokens_config_path)
+
+app = FastAPI()
 
 class Script(BaseModel):
     script: str
