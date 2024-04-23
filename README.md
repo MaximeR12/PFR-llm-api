@@ -52,3 +52,19 @@ Example request:
 {
   "script": "INSERT INTO test_target FROM test_source"
 }
+```
+## Running Tests
+
+To run the unit tests, execute the following command:
+
+```sh
+python test_api.py
+```
+
+## Contributing
+
+Contributions are welcome! If you have any suggestions or improvements, feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
